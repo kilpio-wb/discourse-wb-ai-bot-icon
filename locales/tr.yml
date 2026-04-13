@@ -1,0 +1,4 @@
+tr:
+  theme_metadata:
+    description: "AI bot simgesini başlığın ortasına taşır"
+  ai_bot_greeting: "Yapay zekaya sor"

@@ -1,0 +1,4 @@
+it:
+  theme_metadata:
+    description: "Sposta l'icona del bot IA al centro dell'intestazione"
+  ai_bot_greeting: "Chiedi all'IA"

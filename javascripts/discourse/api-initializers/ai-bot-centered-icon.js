@@ -1,4 +1,5 @@
 import { apiInitializer } from "discourse/lib/api";
+import I18n from "I18n";
 
 export default apiInitializer("1.0", (api) => {
   function repositionAIBot() {
@@ -28,7 +29,7 @@ export default apiInitializer("1.0", (api) => {
     if (settings.show_greeting_label) {
       const label = document.createElement("span");
       label.classList.add("ai-bot-label");
-      label.textContent = settings.greeting_text || "Ask AI";
+      label.textContent = I18n.t(themePrefix("ai_bot_greeting"));
       clone.appendChild(label);
     }
 

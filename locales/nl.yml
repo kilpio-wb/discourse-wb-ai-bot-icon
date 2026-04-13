@@ -1,0 +1,4 @@
+nl:
+  theme_metadata:
+    description: "Verplaatst het AI-bot-icoon naar het midden van de header"
+  ai_bot_greeting: "Vraag AI"

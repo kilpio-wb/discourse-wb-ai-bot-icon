@@ -23,11 +23,6 @@ icon_scale:
   default: "1.3"
   description: "Scale multiplier for the icon size (e.g. 1.0 = normal, 1.5 = 50% bigger)"
 
-greeting_text:
-  type: string
-  default: "Ask AI"
-  description: "Short label shown next to the bot icon"
-
 show_greeting_label:
   type: bool
   default: true

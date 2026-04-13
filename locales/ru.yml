@@ -1,0 +1,4 @@
+ru:
+  theme_metadata:
+    description: "Перемещает значок AI-бота в центр заголовка"
+  ai_bot_greeting: "Спросить ИИ"

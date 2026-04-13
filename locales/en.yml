@@ -1,0 +1,4 @@
+en:
+  theme_metadata:
+    description: "Moves the AI Bot icon to the center of the header"
+  ai_bot_greeting: "Ask AI"

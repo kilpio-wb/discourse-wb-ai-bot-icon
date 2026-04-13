@@ -1,0 +1,4 @@
+es:
+  theme_metadata:
+    description: "Mueve el icono del bot IA al centro del encabezado"
+  ai_bot_greeting: "Preguntar a la IA"

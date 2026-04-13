@@ -1,0 +1,4 @@
+fr:
+  theme_metadata:
+    description: "Déplace l'icône du bot IA au centre de l'en-tête"
+  ai_bot_greeting: "Demander à l'IA"

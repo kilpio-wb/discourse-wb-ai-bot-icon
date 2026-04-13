@@ -1,0 +1,4 @@
+pl:
+  theme_metadata:
+    description: "Przenosi ikonę bota AI na środek nagłówka"
+  ai_bot_greeting: "Zapytaj AI"

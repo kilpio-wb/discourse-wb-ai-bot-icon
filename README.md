@@ -29,8 +29,9 @@ After installing, click the component name under **Admin → Customize → Theme
 | `icon_bg_color` | `#1a1a2e` (dark blue) | Background circle behind the icon |
 | `enable_pulse_animation` | `true` | Subtle pulsing glow to attract attention |
 | `icon_scale` | `1.3` | Size multiplier (1.0 = normal) |
-| `greeting_text` | `Ask AI` | Text label next to the icon |
 | `show_greeting_label` | `true` | Whether to show the text label |
+
+The label text (e.g. "Ask AI") is localized — it follows the user's Discourse interface language. Supported locales: en, de, fr, es, pt, ru, it, nl, ja, ko, zh_CN, zh_TW, ar, pl, tr. To add a language, create a new file in `locales/`.
 
 ## Customization Tips
 
@@ -52,6 +53,10 @@ discourse-ai-bot-icon/
 │   └── discourse/
 │       └── api-initializers/
 │           └── ai-bot-centered-icon.js  # JS to reposition button to center
+├── locales/                # Translations for the greeting label
+│   ├── en.yml
+│   ├── de.yml, fr.yml, es.yml, ...
+│   └── (15 languages)
 └── README.md
 ```
 
