@@ -47,13 +47,16 @@ discourse-ai-bot-icon/
 ├── about.json              # Component metadata
 ├── settings.yml            # Configurable settings
 ├── common/
-│   ├── common.scss         # Styles (colors, glow, pulse, layout)
-│   └── head_tag.html       # JS to reposition button to center
+│   └── common.scss         # Styles (colors, glow, pulse, layout)
+├── javascripts/
+│   └── discourse/
+│       └── api-initializers/
+│           └── ai-bot-centered-icon.js  # JS to reposition button to center
 └── README.md
 ```
 
 ## Notes
 
 - The component hides the original right-side AI bot button and places a styled clone in the center of the header.
-- The exact CSS selector for the AI bot button may vary between Discourse versions. If the button doesn't move, inspect your header and adjust the selectors in `head_tag.html`.
+- The exact CSS selector for the AI bot button may vary between Discourse versions. If the button doesn't move, inspect your header and adjust the selectors in `ai-bot-centered-icon.js`.
 - On mobile (< 600px), the button falls back to a relative position to avoid breaking narrow layouts.
