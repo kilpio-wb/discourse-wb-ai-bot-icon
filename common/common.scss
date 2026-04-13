@@ -1,0 +1,113 @@
+// ─── AI Bot Centered Icon ───
+// Moves the AI bot button to the center of the header,
+// makes it bright, glowing, and impossible to miss.
+
+// ─── Center Wrapper ───
+.ai-bot-center-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// ─── The Centered Button ───
+.ai-bot-centered {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px !important;
+  border-radius: 24px !important;
+  background: $icon_bg_color !important;
+  border: 1.5px solid rgba($icon_color, 0.4) !important;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  transform: scale($icon_scale);
+
+  // Icon itself
+  .d-icon,
+  svg {
+    color: $icon_color !important;
+    fill: $icon_color !important;
+    width: 18px;
+    height: 18px;
+    filter: drop-shadow(0 0 6px rgba($icon_glow_color, 0.6));
+    transition: filter 0.25s ease;
+  }
+
+  &:hover {
+    background: lighten($icon_bg_color, 8%) !important;
+    border-color: rgba($icon_color, 0.7) !important;
+    box-shadow: 0 0 18px rgba($icon_glow_color, 0.35),
+                0 0 40px rgba($icon_glow_color, 0.1);
+
+    .d-icon,
+    svg {
+      filter: drop-shadow(0 0 10px rgba($icon_glow_color, 0.9));
+    }
+  }
+
+  &:active {
+    transform: scale($icon_scale * 0.95);
+  }
+}
+
+// ─── Label ───
+.ai-bot-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: $icon_color;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  text-shadow: 0 0 8px rgba($icon_glow_color, 0.4);
+}
+
+// ─── Pulse Animation ───
+@if $enable_pulse_animation {
+  .ai-bot-centered {
+    animation: ai-bot-pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes ai-bot-pulse {
+    0%, 100% {
+      box-shadow: 0 0 8px rgba($icon_glow_color, 0.15),
+                  0 0 20px rgba($icon_glow_color, 0.05);
+    }
+    50% {
+      box-shadow: 0 0 14px rgba($icon_glow_color, 0.35),
+                  0 0 36px rgba($icon_glow_color, 0.12);
+    }
+  }
+}
+
+// ─── Hide the original button in the right icon group ───
+.d-header-icons {
+  .ai-bot-button[data-repositioned="true"],
+  [data-name="ai-bot"][data-repositioned="true"] {
+    display: none !important;
+  }
+}
+
+// ─── Responsive: shrink on mobile ───
+@media (max-width: 600px) {
+  .ai-bot-center-wrapper {
+    position: relative;
+    left: auto;
+    top: auto;
+    transform: none;
+    margin-left: auto;
+    margin-right: 8px;
+  }
+
+  .ai-bot-centered {
+    transform: scale(1) !important;
+    padding: 5px 10px !important;
+  }
+
+  .ai-bot-label {
+    font-size: 11px;
+  }
+}

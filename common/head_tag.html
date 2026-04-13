@@ -1,0 +1,75 @@
+<script type="text/discourse-plugin" version="0.8">
+  const settings = require("discourse/lib/theme-settings-store").getObjectForTheme(settings.theme_id);
+
+  api.onPageChange(() => {
+    requestAnimationFrame(() => {
+      repositionAIBot();
+    });
+  });
+
+  // Use MutationObserver to catch when the header renders
+  const observer = new MutationObserver(() => {
+    repositionAIBot();
+  });
+
+  observer.observe(document.documentElement, {
+    childList: true,
+    subtree: true,
+  });
+
+  function repositionAIBot() {
+    // Find the AI bot button — it can be .ai-bot-button or [data-name="ai-bot"]
+    const botBtn =
+      document.querySelector(".d-header-icons .ai-bot-button") ||
+      document.querySelector('.d-header-icons [data-name="ai-bot"]') ||
+      document.querySelector(".d-header-icons .btn[title*='AI']") ||
+      document.querySelector(".d-header-icons .btn[title*='bot']");
+
+    if (!botBtn) return;
+    if (botBtn.dataset.repositioned === "true") return;
+
+    // Mark it so we don't process it again
+    botBtn.dataset.repositioned = "true";
+
+    // Create a wrapper for centered placement
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("ai-bot-center-wrapper");
+
+    // Clone and restyle the button
+    const clone = botBtn.cloneNode(true);
+    clone.classList.add("ai-bot-centered");
+    clone.dataset.repositioned = "true";
+
+    // Copy click behavior
+    clone.addEventListener("click", (e) => {
+      e.preventDefault();
+      botBtn.click();
+    });
+
+    // Add label if enabled
+    if (settings.show_greeting_label) {
+      const label = document.createElement("span");
+      label.classList.add("ai-bot-label");
+      label.textContent = settings.greeting_text || "Ask AI";
+      clone.appendChild(label);
+    }
+
+    wrapper.appendChild(clone);
+
+    // Hide the original button
+    botBtn.style.display = "none";
+
+    // Insert into the header, between logo and icons
+    const headerContents =
+      document.querySelector(".d-header > .wrap") ||
+      document.querySelector(".d-header .contents");
+
+    if (headerContents) {
+      // Check if we already inserted
+      const existing = headerContents.querySelector(".ai-bot-center-wrapper");
+      if (existing) return;
+
+      headerContents.appendChild(wrapper);
+    }
+  }
+</script>
