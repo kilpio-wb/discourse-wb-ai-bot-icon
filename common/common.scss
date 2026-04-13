@@ -1,6 +1,9 @@
 // ─── AI Bot Centered Icon ───
 // Moves the AI bot button to the center of the header,
 // makes it bright, glowing, and impossible to miss.
+//
+// Note: Discourse theme settings are strings, so we use CSS-native
+// color functions instead of Sass rgba()/lighten().
 
 // ─── Center Wrapper ───
 .ai-bot-center-wrapper {
@@ -21,37 +24,37 @@
   gap: 8px;
   padding: 6px 14px !important;
   border-radius: 24px !important;
-  background: $icon_bg_color !important;
-  border: 1.5px solid rgba($icon_color, 0.4) !important;
+  background: #{$icon_bg_color} !important;
+  border: 1.5px solid color-mix(in srgb, #{$icon_color} 40%, transparent) !important;
   cursor: pointer;
   transition: all 0.25s ease;
-  transform: scale($icon_scale);
+  transform: scale(#{$icon_scale});
 
   // Icon itself
   .d-icon,
   svg {
-    color: $icon_color !important;
-    fill: $icon_color !important;
+    color: #{$icon_color} !important;
+    fill: #{$icon_color} !important;
     width: 18px;
     height: 18px;
-    filter: drop-shadow(0 0 6px rgba($icon_glow_color, 0.6));
+    filter: drop-shadow(0 0 6px color-mix(in srgb, #{$icon_glow_color} 60%, transparent));
     transition: filter 0.25s ease;
   }
 
   &:hover {
-    background: lighten($icon_bg_color, 8%) !important;
-    border-color: rgba($icon_color, 0.7) !important;
-    box-shadow: 0 0 18px rgba($icon_glow_color, 0.35),
-                0 0 40px rgba($icon_glow_color, 0.1);
+    background: color-mix(in srgb, #{$icon_bg_color}, white 8%) !important;
+    border-color: color-mix(in srgb, #{$icon_color} 70%, transparent) !important;
+    box-shadow: 0 0 18px color-mix(in srgb, #{$icon_glow_color} 35%, transparent),
+                0 0 40px color-mix(in srgb, #{$icon_glow_color} 10%, transparent);
 
     .d-icon,
     svg {
-      filter: drop-shadow(0 0 10px rgba($icon_glow_color, 0.9));
+      filter: drop-shadow(0 0 10px color-mix(in srgb, #{$icon_glow_color} 90%, transparent));
     }
   }
 
   &:active {
-    transform: scale($icon_scale * 0.95);
+    transform: scale(calc(#{$icon_scale} * 0.95));
   }
 }
 
@@ -59,10 +62,10 @@
 .ai-bot-label {
   font-size: 13px;
   font-weight: 600;
-  color: $icon_color;
+  color: #{$icon_color};
   letter-spacing: 0.03em;
   white-space: nowrap;
-  text-shadow: 0 0 8px rgba($icon_glow_color, 0.4);
+  text-shadow: 0 0 8px color-mix(in srgb, #{$icon_glow_color} 40%, transparent);
 }
 
 // ─── Pulse Animation ───
@@ -73,12 +76,12 @@
 
   @keyframes ai-bot-pulse {
     0%, 100% {
-      box-shadow: 0 0 8px rgba($icon_glow_color, 0.15),
-                  0 0 20px rgba($icon_glow_color, 0.05);
+      box-shadow: 0 0 8px color-mix(in srgb, #{$icon_glow_color} 15%, transparent),
+                  0 0 20px color-mix(in srgb, #{$icon_glow_color} 5%, transparent);
     }
     50% {
-      box-shadow: 0 0 14px rgba($icon_glow_color, 0.35),
-                  0 0 36px rgba($icon_glow_color, 0.12);
+      box-shadow: 0 0 14px color-mix(in srgb, #{$icon_glow_color} 35%, transparent),
+                  0 0 36px color-mix(in srgb, #{$icon_glow_color} 12%, transparent);
     }
   }
 }
