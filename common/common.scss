@@ -6,13 +6,13 @@
 // color functions instead of Sass rgba()/lighten().
 
 // ─── Center Wrapper ───
-// Hidden by default; shown only on wide screens (≥ 900px).
+// Hidden by default; shown only on wide screens (≥ 500px).
 // On narrower screens the original right-side AI bot button is used instead.
 .ai-bot-center-wrapper {
   display: none;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 500px) {
   .ai-bot-center-wrapper {
     display: flex;
     position: absolute;
@@ -96,7 +96,7 @@
 
 // ─── Hide the original button in the right icon group on wide screens only ───
 // On narrow screens the original button stays visible and the centered clone is hidden.
-@media (min-width: 900px) {
+@media (min-width: 500px) {
   .d-header-icons {
     .ai-bot-button[data-repositioned="true"],
     [data-name="ai-bot"][data-repositioned="true"] {
