@@ -64,4 +64,4 @@ discourse-wb-ai-bot-icon/
 
 - The component hides the original right-side AI bot button and places a styled clone in the center of the header.
 - The exact CSS selector for the AI bot button may vary between Discourse versions. If the button doesn't move, inspect your header and adjust the selectors in `ai-bot-centered-icon.js`.
-- On screens narrower than 500px, the centered clone is hidden and the original AI bot button stays in the right-side header icon group — this avoids overlapping the logo or wrapping below the header on narrow layouts.
+- On screens narrower than 580px, the centered clone is hidden and the original AI bot button stays in the right-side header icon group — this avoids overlapping the logo or wrapping below the header on narrow layouts.
