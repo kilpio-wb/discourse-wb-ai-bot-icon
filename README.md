@@ -44,7 +44,7 @@ The label text (e.g. "Ask AI") is localized — it follows the user's Discourse 
 ## File Structure
 
 ```
-discourse-ai-bot-icon/
+discourse-wb-ai-bot-icon/
 ├── about.json              # Component metadata
 ├── settings.yml            # Configurable settings
 ├── common/
