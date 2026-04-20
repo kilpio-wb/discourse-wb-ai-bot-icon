@@ -6,15 +6,23 @@
 // color functions instead of Sass rgba()/lighten().
 
 // ─── Center Wrapper ───
+// Hidden by default; shown only on wide screens (≥ 900px).
+// On narrower screens the original right-side AI bot button is used instead.
 .ai-bot-center-wrapper {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .ai-bot-center-wrapper {
+    display: flex;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 // ─── The Centered Button ───
@@ -86,31 +94,13 @@
   }
 }
 
-// ─── Hide the original button in the right icon group ───
-.d-header-icons {
-  .ai-bot-button[data-repositioned="true"],
-  [data-name="ai-bot"][data-repositioned="true"] {
-    display: none !important;
-  }
-}
-
-// ─── Responsive: shrink on mobile ───
-@media (max-width: 600px) {
-  .ai-bot-center-wrapper {
-    position: relative;
-    left: auto;
-    top: auto;
-    transform: none;
-    margin-left: auto;
-    margin-right: 8px;
-  }
-
-  .ai-bot-centered {
-    transform: scale(1) !important;
-    padding: 5px 10px !important;
-  }
-
-  .ai-bot-label {
-    font-size: 11px;
+// ─── Hide the original button in the right icon group on wide screens only ───
+// On narrow screens the original button stays visible and the centered clone is hidden.
+@media (min-width: 900px) {
+  .d-header-icons {
+    .ai-bot-button[data-repositioned="true"],
+    [data-name="ai-bot"][data-repositioned="true"] {
+      display: none !important;
+    }
   }
 }

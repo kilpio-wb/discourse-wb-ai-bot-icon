@@ -34,7 +34,6 @@ export default apiInitializer("1.0", (api) => {
     }
 
     wrapper.appendChild(clone);
-    botBtn.style.display = "none";
 
     const headerContents =
       document.querySelector(".d-header > .wrap") ||
