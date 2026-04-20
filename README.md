@@ -24,11 +24,11 @@ After installing, click the component name under **Admin → Customize → Theme
 
 | Setting | Default | Description |
 |---|---|---|
-| `icon_color` | `#4AF626` (bright green) | Primary color of the icon and label |
-| `icon_glow_color` | `#4AF626` | Color of the glow/pulse effect |
-| `icon_bg_color` | `#1a1a2e` (dark blue) | Background circle behind the icon |
+| `icon_color` | `#666666` (medium gray) | Primary color of the icon and label |
+| `icon_glow_color` | `#BBBBBB` (light gray) | Color of the glow/pulse effect |
+| `icon_bg_color` | `#FFFFFF` (white) | Background circle behind the icon |
 | `enable_pulse_animation` | `true` | Subtle pulsing glow to attract attention |
-| `icon_scale` | `1.3` | Size multiplier (1.0 = normal) |
+| `icon_scale` | `1.35` | Size multiplier (1.0 = normal) |
 | `show_greeting_label` | `true` | Whether to show the text label |
 
 The label text (e.g. "Ask AI") is localized — it follows the user's Discourse interface language. Supported locales: en, de, fr, es, pt, ru, it, nl, ja, ko, zh_CN, zh_TW, ar, pl, tr. To add a language, create a new file in `locales/`.
