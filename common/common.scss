@@ -104,3 +104,18 @@
     }
   }
 }
+
+// ─── Topic pages: yield the center to the sticky topic title ───
+// When the header is showing the topic title (`.extra-info-wrapper`),
+// hide the centered clone and restore the original right-side button
+// so it never overlaps long titles.
+.d-header:has(.extra-info-wrapper) .ai-bot-center-wrapper {
+  display: none !important;
+}
+
+.d-header:has(.extra-info-wrapper) .d-header-icons {
+  .ai-bot-button[data-repositioned="true"],
+  [data-name="ai-bot"][data-repositioned="true"] {
+    display: inline-flex !important;
+  }
+}
