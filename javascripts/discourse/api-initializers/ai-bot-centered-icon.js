@@ -46,9 +46,19 @@ export default apiInitializer("1.0", (api) => {
     }
   }
 
+  function updateAIPageFlag() {
+    const onAIPage = /\/discourse-ai\/ai-bot(\/|$)/.test(window.location.pathname);
+    document.documentElement.classList.toggle("on-ai-bot-page", onAIPage);
+  }
+
   api.onPageChange(() => {
-    requestAnimationFrame(() => repositionAIBot());
+    requestAnimationFrame(() => {
+      repositionAIBot();
+      updateAIPageFlag();
+    });
   });
+
+  updateAIPageFlag();
 
   const observer = new MutationObserver(() => repositionAIBot());
   observer.observe(document.documentElement, {
