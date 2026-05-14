@@ -120,17 +120,20 @@
   }
 }
 
-// ─── AI bot pages: hide the styled clone and let Discourse handle the button ───
-// On /discourse-ai/ai-bot/* the original button's icon and click behavior
-// change (e.g. to "close conversation"), which the stale clone can't mirror.
-// Hide the centered clone and restore the original right-side button instead.
-html.on-ai-bot-page .ai-bot-center-wrapper {
+// ─── AI bot pages / conversations: hide the button entirely ───
+// On /discourse-ai/ai-bot/* and on AI conversation topics (body has
+// `has-ai-conversations-sidebar`) the user is already inside the AI UI,
+// so both the centered clone and the right-side button are redundant
+// and the clone's stale click behavior is confusing.
+html.on-ai-bot-page .ai-bot-center-wrapper,
+body.has-ai-conversations-sidebar .ai-bot-center-wrapper {
   display: none !important;
 }
 
-html.on-ai-bot-page .d-header-icons {
-  .ai-bot-button[data-repositioned="true"],
-  [data-name="ai-bot"][data-repositioned="true"] {
-    display: inline-flex !important;
+html.on-ai-bot-page .d-header-icons,
+body.has-ai-conversations-sidebar .d-header-icons {
+  .ai-bot-button,
+  [data-name="ai-bot"] {
+    display: none !important;
   }
 }
