@@ -172,7 +172,10 @@ export default apiInitializer("1.0", (api) => {
       !headerContents.querySelector(".ai-bot-center-wrapper")
     ) {
       const wrapper = document.createElement("div");
-      wrapper.classList.add("ai-bot-center-wrapper");
+      // `ai-bot-anon` distinguishes this from the logged-in clone so CSS can give
+      // the anonymous centered button a higher "switch to side icon" breakpoint
+      // (its right-side neighbours are the wide Log in / Sign up buttons).
+      wrapper.classList.add("ai-bot-center-wrapper", "ai-bot-anon");
       wrapper.appendChild(makeAnonCenteredButton());
       headerContents.appendChild(wrapper);
     }

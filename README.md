@@ -31,6 +31,7 @@ After installing, click the component name under **Admin → Customize → Theme
 | `icon_scale` | `1.35` | Size multiplier (1.0 = normal) |
 | `show_greeting_label` | `true` | Whether to show the text label |
 | `enable_anon_button` | `true` | Show the centered "Ask AI" button to anonymous visitors too (see below) |
+| `anon_center_min_width` | `768` | Anonymous only: below this header width (px) the centered button is replaced by the compact bot icon on the right. Raise it if the centered button overlaps the log in / sign up buttons; must be ≥ 580 |
 
 The label text (e.g. "Ask AI") is localized — it follows the user's Discourse interface language. Supported locales: en, de, fr, es, pt, ru, it, nl, ja, ko, zh_CN, zh_TW, ar, pl, tr. To add a language, create a new file in `locales/`.
 
@@ -43,7 +44,7 @@ With `enable_anon_button` on (the default), the component builds an identical-lo
 - **Log in** — opens Discourse's native login modal.
 - **Sign up** — opens Discourse's native create-account modal.
 
-This keeps the call-to-action visible to everyone without spending any AI tokens on anonymous traffic. The button looks the same as the logged-in one (same glow, pulse, label). On narrow screens (< 580px) and on scrolled topic pages — where the centered button gives way to the docked topic title — a compact AI icon appears in the right-side header icon group instead, mirroring the logged-in fallback so anonymous visitors always have the button available. The dialog text is localized in English and Russian; other interface languages fall back to English for the dialog copy while the button label stays localized.
+This keeps the call-to-action visible to everyone without spending any AI tokens on anonymous traffic. The button looks the same as the logged-in one (same glow, pulse, label). On smaller screens and on scrolled topic pages — where the centered button gives way to the docked topic title — a compact AI icon appears in the right-side header icon group instead, mirroring the logged-in fallback so anonymous visitors always have the button available. Because anonymous headers show wide "Log in" / "Sign up" buttons that the centered button can overlap, anonymous visitors switch to that compact icon below `anon_center_min_width` (default 768px) rather than the 580px used for logged-in users; raise the setting if the overlap persists on your header. The dialog text is localized in English and Russian; other interface languages fall back to English for the dialog copy while the button label stays localized.
 
 Set `enable_anon_button` to `false` to show the button to logged-in users only (original behavior).
 

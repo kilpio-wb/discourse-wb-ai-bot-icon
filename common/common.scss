@@ -124,13 +124,27 @@
   }
 }
 
+// ─── Anonymous swap breakpoint: centered button ↔ side icon ───
+// The centered button is absolutely centered, and for anonymous visitors its
+// right-hand neighbours are the wide "Log in" / "Sign up" buttons — so on medium
+// screens the centered button overlaps them. Anonymous visitors therefore switch
+// to the compact side icon EARLIER than logged-in users: below the
+// `anon_center_min_width` setting (default 768px) instead of the shared 580px.
+// Only the anonymous wrapper carries `.ai-bot-anon`, so the logged-in clone keeps
+// its 580px behaviour untouched.
+@media (max-width: #{$anon_center_min_width}px) {
+  .ai-bot-center-wrapper.ai-bot-anon {
+    display: none !important;
+  }
+}
+
 // ─── Right-side fallback button (anonymous visitors only) ───
 // Logged-in users fall back to the plugin's own right-side button when the
 // centered button is hidden. Anonymous visitors have no such button, so the JS
 // injects an `<li class="ai-bot-side-anon">` into the header icon group (`<ul>`).
-// It must be shown ONLY where the centered button is hidden: narrow screens
-// (< 580px) and docked-topic headers. Everywhere else it stays hidden — hence
-// the `!important` default, which also has to beat Discourse's own
+// It must be shown ONLY where the centered button is hidden: below the anonymous
+// switch width above and on docked-topic headers. Everywhere else it stays hidden
+// — hence the `!important` default, which also has to beat Discourse's own
 // `.d-header-icons` list-item styling (specificity 0,1,1); without it the icon
 // leaks onto wide screens next to the centered button. Never built for logged-in
 // users.
@@ -148,8 +162,9 @@
   }
 }
 
-// Narrow screens (< 580px): the centered button is hidden, so show the fallback.
-@media (max-width: 579.98px) {
+// Below the anonymous switch width: the centered button is hidden, so show the
+// compact fallback icon (matches the `anon_center_min_width` setting).
+@media (max-width: #{$anon_center_min_width}px) {
   .ai-bot-side-anon {
     display: inline-flex !important;
   }
