@@ -2,3 +2,6 @@ ru:
   theme_metadata:
     description: "Перемещает значок AI-бота в центр заголовка"
   ai_bot_greeting: "Спросить ИИ"
+  anon_dialog_message: "Войдите или зарегистрируйтесь, чтобы задать вопрос AI-помощнику техподдержки Wiren Board."
+  anon_login: "Войти"
+  anon_signup: "Регистрация"

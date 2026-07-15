@@ -30,8 +30,22 @@ After installing, click the component name under **Admin → Customize → Theme
 | `enable_pulse_animation` | `true` | Subtle pulsing glow to attract attention |
 | `icon_scale` | `1.35` | Size multiplier (1.0 = normal) |
 | `show_greeting_label` | `true` | Whether to show the text label |
+| `enable_anon_button` | `true` | Show the centered "Ask AI" button to anonymous visitors too (see below) |
 
 The label text (e.g. "Ask AI") is localized — it follows the user's Discourse interface language. Supported locales: en, de, fr, es, pt, ru, it, nl, ja, ko, zh_CN, zh_TW, ar, pl, tr. To add a language, create a new file in `locales/`.
+
+## Anonymous visitors
+
+The discourse-ai bot button only exists in the DOM for logged-in users whose account has an AI bot enabled, so out of the box anonymous visitors see nothing to click.
+
+With `enable_anon_button` on (the default), the component builds an identical-looking centered "Ask AI" button for anonymous visitors as well. Because the AI bot itself is not available without an account, clicking it does **not** start a bot conversation — instead it opens a small dialog with two choices:
+
+- **Log in** — opens Discourse's native login modal.
+- **Sign up** — opens Discourse's native create-account modal.
+
+This keeps the call-to-action visible to everyone without spending any AI tokens on anonymous traffic. The button looks the same as the logged-in one (same glow, pulse, label). On narrow screens (< 580px) and on scrolled topic pages — where the centered button gives way to the docked topic title — a compact AI icon appears in the right-side header icon group instead, mirroring the logged-in fallback so anonymous visitors always have the button available. The dialog text is localized in English and Russian; other interface languages fall back to English for the dialog copy while the button label stays localized.
+
+Set `enable_anon_button` to `false` to show the button to logged-in users only (original behavior).
 
 ## Customization Tips
 

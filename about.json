@@ -7,5 +7,7 @@
   "maximum_discourse_version": null,
   "assets": {},
   "color_schemes": {},
-  "modifiers": {}
+  "modifiers": {
+    "svg_icons": ["robot"]
+  }
 }

@@ -2,3 +2,6 @@ en:
   theme_metadata:
     description: "Moves the AI Bot icon to the center of the header"
   ai_bot_greeting: "Ask AI"
+  anon_dialog_message: "Log in or sign up to ask the Wiren Board support AI assistant."
+  anon_login: "Log in"
+  anon_signup: "Sign up"

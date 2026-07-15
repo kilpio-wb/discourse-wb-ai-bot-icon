@@ -27,3 +27,8 @@ show_greeting_label:
   type: bool
   default: true
   description: "Show a text label next to the icon"
+
+enable_anon_button:
+  type: bool
+  default: true
+  description: "Show a centered 'Ask AI' button for anonymous visitors; clicking opens a log in / sign up dialog instead of the AI bot (which requires an account)"

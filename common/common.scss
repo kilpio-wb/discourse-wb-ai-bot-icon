@@ -26,9 +26,13 @@
 }
 
 // ─── The Centered Button ───
+// Used for both the logged-in clone (an <a>) and the anonymous variant (a
+// hand-built <button>). `font-family: inherit` keeps the native <button>'s
+// label in the forum UI font instead of the browser default.
 .ai-bot-centered {
   display: inline-flex !important;
   align-items: center;
+  font-family: inherit;
   gap: 3px;
   padding: 6px 14px !important;
   border-radius: 24px !important;
@@ -118,6 +122,47 @@
   [data-name="ai-bot"][data-repositioned="true"] {
     display: inline-flex !important;
   }
+}
+
+// ─── Right-side fallback button (anonymous visitors only) ───
+// Logged-in users fall back to the plugin's own right-side button when the
+// centered button is hidden. Anonymous visitors have no such button, so the JS
+// injects an `<li class="ai-bot-side-anon">` into the header icon group (`<ul>`).
+// It is shown exactly when the centered button is not: on narrow screens
+// (< 580px) and when a topic title is docked in the header. It never appears for
+// logged-in users (the JS only builds it for anonymous visitors).
+.ai-bot-side-anon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  // No color override: inherit the header's icon color so it stays visible
+  // against any header background (the centered button carries the brand color).
+  .d-icon,
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// Wide screens: the centered button takes over, so hide the side fallback…
+@media (min-width: 580px) {
+  .ai-bot-side-anon {
+    display: none;
+  }
+}
+
+// …except when a topic title is docked in the header (the centered button is
+// hidden there), where the side fallback returns.
+.d-header:has(.extra-info-wrapper) .ai-bot-side-anon {
+  display: inline-flex !important;
+}
+
+// AI bot pages / conversations: hide it too. Anonymous visitors never reach
+// these, but keep it consistent with the centered button.
+html.on-ai-bot-page .ai-bot-side-anon,
+body.has-ai-conversations-sidebar .ai-bot-side-anon {
+  display: none !important;
 }
 
 // ─── AI bot pages / conversations: hide the button entirely ───
