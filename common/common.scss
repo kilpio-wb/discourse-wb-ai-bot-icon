@@ -128,11 +128,14 @@
 // Logged-in users fall back to the plugin's own right-side button when the
 // centered button is hidden. Anonymous visitors have no such button, so the JS
 // injects an `<li class="ai-bot-side-anon">` into the header icon group (`<ul>`).
-// It is shown exactly when the centered button is not: on narrow screens
-// (< 580px) and when a topic title is docked in the header. It never appears for
-// logged-in users (the JS only builds it for anonymous visitors).
+// It must be shown ONLY where the centered button is hidden: narrow screens
+// (< 580px) and docked-topic headers. Everywhere else it stays hidden — hence
+// the `!important` default, which also has to beat Discourse's own
+// `.d-header-icons` list-item styling (specificity 0,1,1); without it the icon
+// leaks onto wide screens next to the centered button. Never built for logged-in
+// users.
 .ai-bot-side-anon {
-  display: inline-flex;
+  display: none !important;
   align-items: center;
   justify-content: center;
 
@@ -145,24 +148,17 @@
   }
 }
 
-// Wide screens: the centered button takes over, so hide the side fallback…
-@media (min-width: 580px) {
+// Narrow screens (< 580px): the centered button is hidden, so show the fallback.
+@media (max-width: 579.98px) {
   .ai-bot-side-anon {
-    display: none;
+    display: inline-flex !important;
   }
 }
 
-// …except when a topic title is docked in the header (the centered button is
-// hidden there), where the side fallback returns.
+// Docked topic title (any width): the centered button is hidden here too, so the
+// fallback returns.
 .d-header:has(.extra-info-wrapper) .ai-bot-side-anon {
   display: inline-flex !important;
-}
-
-// AI bot pages / conversations: hide it too. Anonymous visitors never reach
-// these, but keep it consistent with the centered button.
-html.on-ai-bot-page .ai-bot-side-anon,
-body.has-ai-conversations-sidebar .ai-bot-side-anon {
-  display: none !important;
 }
 
 // ─── AI bot pages / conversations: hide the button entirely ───
@@ -181,4 +177,14 @@ body.has-ai-conversations-sidebar .d-header-icons {
   [data-name="ai-bot"] {
     display: none !important;
   }
+}
+
+// ─── Login / sign-up pages: hide the anonymous button entirely ───
+// On the full-page /login and /signup routes the button is pointless (the
+// visitor is already in the auth flow) and its absolute centering can overlap
+// the logo, so hide both the centered button and the right-side fallback there.
+// The `on-auth-page` class is toggled on <html> by the JS on route change.
+html.on-auth-page .ai-bot-center-wrapper,
+html.on-auth-page .ai-bot-side-anon {
+  display: none !important;
 }

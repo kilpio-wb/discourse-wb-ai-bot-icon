@@ -191,15 +191,25 @@ export default apiInitializer("1.0", (api) => {
     document.documentElement.classList.toggle("on-ai-bot-page", onAIPage);
   }
 
+  // On the full-page login / sign-up routes the anonymous button is pointless
+  // (the visitor is already in the auth flow) and its centering can overlap the
+  // logo, so CSS hides both variants when this flag is set.
+  function updateAuthPageFlag() {
+    const onAuthPage = /^\/(login|signup)(\/|$)/.test(window.location.pathname);
+    document.documentElement.classList.toggle("on-auth-page", onAuthPage);
+  }
+
   api.onPageChange(() => {
     requestAnimationFrame(() => {
       repositionAIBot();
       buildAnonAIButton();
       updateAIPageFlag();
+      updateAuthPageFlag();
     });
   });
 
   updateAIPageFlag();
+  updateAuthPageFlag();
 
   const observer = new MutationObserver(() => {
     repositionAIBot();
