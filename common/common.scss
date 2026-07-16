@@ -81,7 +81,11 @@
 }
 
 // ─── Pulse Animation ───
-@if $enable_pulse_animation {
+// Discourse compiles bool theme settings to unquoted SCSS strings ("true" /
+// "false"), and Sass treats every string as truthy — so a bare
+// `@if $enable_pulse_animation` is ALWAYS true. Compare against "true" so the
+// toggle actually works.
+@if $enable_pulse_animation == "true" {
   .ai-bot-centered {
     animation: ai-bot-pulse 2.5s ease-in-out infinite;
   }
