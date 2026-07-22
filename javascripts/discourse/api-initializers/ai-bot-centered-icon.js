@@ -151,12 +151,22 @@ export default apiInitializer("1.0", (api) => {
     if (isAuthPage()) {
       clearDestinationCookies(source);
       rememberAIDestination();
-    } else {
-      // Off the auth pages: either authentication finished (core already
-      // consumed the cookie) or the visitor walked away. Either way, stop
-      // overriding where Discourse sends them.
-      setPendingAuthSource(null);
+      return;
     }
+
+    // Off the auth pages the flow is over, one way or another: stop overriding
+    // where Discourse sends people.
+    setPendingAuthSource(null);
+
+    if (api.getCurrentUser()) {
+      // Signed in, so core has read the cookie and sent the visitor here. Its
+      // own cleanup (`removeCookie` with no path) misses ours whenever the two
+      // ended up on different paths, so clear the leftover rather than let it
+      // steer some later, unrelated log in.
+      clearDestinationCookies(window.location.pathname);
+    }
+    // Still anonymous: this is the "check your email" page after signing up.
+    // The cookie has to survive until the activation link is opened.
   }
 
   // Open Discourse's native login/signup. Primary path: click the real header
