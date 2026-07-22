@@ -1,4 +1,6 @@
 import { apiInitializer } from "discourse/lib/api";
+import cookie from "discourse/lib/cookie";
+import getURL from "discourse/lib/get-url";
 import DiscourseURL from "discourse/lib/url";
 import I18n from "I18n";
 
@@ -53,11 +55,91 @@ export default apiInitializer("1.0", (api) => {
   // from scratch; clicking it opens a log in / sign up dialog instead of the
   // bot (which is unavailable without an account). Gated by `enable_anon_button`.
 
+  // ─── Post-authentication redirect ───
+  // Someone who clicked "Ask AI" wants the bot, not the front page, so send
+  // them to the conversation page once they finish logging in or signing up.
+
+  // The page the discourse-ai header button opens (ai-bot-header-icon.gjs).
+  const AI_CONVERSATIONS_PATH = "/discourse-ai/ai-bot/conversations";
+
+  // Kept in sessionStorage as well as in memory so the intent survives a full
+  // page load of the auth form (a reload, or an external login round trip).
+  const PENDING_AUTH_KEY = "wb-ai-bot-pending-auth-redirect";
+  let pendingAuthRedirect = false;
+
+  function isAuthPage() {
+    return /^\/(login|signup)(\/|$)/.test(window.location.pathname);
+  }
+
+  // Ask Discourse to land the visitor on the AI page after authentication.
+  // Core reads this cookie in three places — the login form (controllers/
+  // login.js), account activation (users_controller.rb) and the OAuth callback
+  // (omniauth_callbacks_controller.rb) — and deletes it once used, so a single
+  // cookie covers every route into an account and needs no cleanup from us.
+  // `path: "/"` is required: without it the browser scopes the cookie to the
+  // directory of the current page, and the activation / OAuth URLs never see it.
+  function rememberAIDestination() {
+    cookie("destination_url", getURL(AI_CONVERSATIONS_PATH), { path: "/" });
+  }
+
+  function setPendingAuthRedirect(pending) {
+    pendingAuthRedirect = pending;
+    try {
+      if (pending) {
+        sessionStorage.setItem(PENDING_AUTH_KEY, "1");
+      } else {
+        sessionStorage.removeItem(PENDING_AUTH_KEY);
+      }
+    } catch {
+      // storage unavailable (private mode, blocked site data) — the in-memory
+      // flag still covers the ordinary single-document flow
+    }
+  }
+
+  function hasPendingAuthRedirect() {
+    if (pendingAuthRedirect) {
+      return true;
+    }
+    try {
+      return sessionStorage.getItem(PENDING_AUTH_KEY) === "1";
+    } catch {
+      return false;
+    }
+  }
+
+  // Setting the cookie before opening the form is not enough: the `/login` and
+  // `/signup` routes overwrite `destination_url` in their own `beforeModel`
+  // with the page the visitor came from. That runs *after* our click, so it
+  // wins everywhere except the site root — where `isValidDestinationUrl()`
+  // rejects "/" and our value happens to survive. Re-assert the cookie once the
+  // transition into the auth page has finished and ours is written last.
+  function keepAIDestination() {
+    if (!hasPendingAuthRedirect()) {
+      return;
+    }
+    if (isAuthPage()) {
+      rememberAIDestination();
+    } else {
+      // Off the auth pages: either authentication finished (core already
+      // consumed the cookie) or the visitor walked away. Either way, stop
+      // overriding where Discourse sends them.
+      setPendingAuthRedirect(false);
+    }
+  }
+
   // Open Discourse's native login/signup. Primary path: click the real header
   // button, which reproduces the running version's exact behavior (modal,
   // full-page route, or SSO redirect). Fallback: route to the auth page when the
   // button is absent (e.g. invite-only hides sign-up, or a custom auth theme).
+  //
+  // Only reachable from the anonymous button's dialog, so the AI destination is
+  // never forced on someone who started a login of their own from the header.
   function triggerAuth(selector, fallbackPath) {
+    setPendingAuthRedirect(true);
+    // Covers the flows that never complete a route transition (login modal,
+    // single-external-login redirect); `keepAIDestination` covers the rest.
+    rememberAIDestination();
+
     const btn =
       document.querySelector(`.d-header ${selector}`) ||
       document.querySelector(selector);
@@ -198,11 +280,14 @@ export default apiInitializer("1.0", (api) => {
   // (the visitor is already in the auth flow) and its centering can overlap the
   // logo, so CSS hides both variants when this flag is set.
   function updateAuthPageFlag() {
-    const onAuthPage = /^\/(login|signup)(\/|$)/.test(window.location.pathname);
-    document.documentElement.classList.toggle("on-auth-page", onAuthPage);
+    document.documentElement.classList.toggle("on-auth-page", isAuthPage());
   }
 
   api.onPageChange(() => {
+    // Before the frame: the cookie only has to beat the route's `beforeModel`,
+    // which has already run by the time this fires.
+    keepAIDestination();
+
     requestAnimationFrame(() => {
       repositionAIBot();
       buildAnonAIButton();

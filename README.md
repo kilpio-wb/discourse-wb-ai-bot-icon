@@ -46,6 +46,15 @@ With `enable_anon_button` on (the default), the component builds an identical-lo
 
 This keeps the call-to-action visible to everyone without spending any AI tokens on anonymous traffic. The button looks the same as the logged-in one (same glow, pulse, label). On smaller screens and on scrolled topic pages — where the centered button gives way to the docked topic title — a compact AI icon appears in the right-side header icon group instead, mirroring the logged-in fallback so anonymous visitors always have the button available. Because anonymous headers show wide "Log in" / "Sign up" buttons that the centered button can overlap, anonymous visitors switch to that compact icon below `anon_center_min_width` (default 768px) rather than the 580px used for logged-in users; raise the setting if the overlap persists on your header. The dialog text is localized in English and Russian; other interface languages fall back to English for the dialog copy while the button label stays localized.
 
+### Returning to the AI page after logging in
+
+Someone who clicked "Ask AI" wanted the bot, so the component sends them to `/discourse-ai/ai-bot/conversations` once authentication finishes, instead of dropping them on the front page. It does this with Discourse's own `destination_url` cookie, set when — and only when — the visitor picks **Log in** or **Sign up** in the dialog above. Core reads that cookie on the login form, on account activation and on the OAuth callback, then clears it, so all three ways into an account end up on the AI page. Clicking **Log in** in the header directly is untouched and still returns you where you were.
+
+Two things worth knowing:
+
+- **Sign up redirects one step later.** The sign-up form always lands on `/u/account-created` ("check your email") — that is Discourse, not this component. The redirect happens when the visitor follows the activation link from the email.
+- **It only works in the same browser.** The cookie lives in the browser that started the sign-up. Register on a desktop and open the activation email on a phone, and that phone lands on the front page instead of the AI page. This is a limitation of the core mechanism, not a bug in the component.
+
 Set `enable_anon_button` to `false` to show the button to logged-in users only (original behavior).
 
 ## Customization Tips
